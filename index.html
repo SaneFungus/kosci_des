@@ -7,112 +7,91 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0c0b09; --surface:#161410; --surface2:#1e1c18;
-  --border:#272420; --border2:#332f28;
-  --accent:#b83228; --gold:#c4a044; --green:#2d8a4e;
-  --text:#ddd5bf; --dim:#52493c; --mid:#7a7060;
+  --bg:#0c0b09;--surface:#161410;--surface2:#1e1c18;
+  --border:#272420;--border2:#332f28;
+  --accent:#b83228;--gold:#c4a044;--green:#2d8a4e;
+  --text:#ddd5bf;--dim:#52493c;--mid:#7a7060;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{min-height:100%;overflow-x:hidden}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1.5}
 .B{font-family:'Bebas Neue',sans-serif;letter-spacing:.08em}
-
-/* ─── screens ─── */
 .scr{display:none;min-height:100vh;flex-direction:column}
 .scr.on{display:flex}
 
-/* ─── loader ─── */
+/* loader */
 #loader{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;transition:opacity .3s}
 #loader.gone{opacity:0;pointer-events:none}
 .spin{width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .load-txt{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 
-/* ─── pause overlay ─── */
-#pauseOverlay{position:fixed;inset:0;background:rgba(12,11,9,.94);z-index:888;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
+/* pause overlay */
+#pauseOverlay{position:fixed;inset:0;background:rgba(12,11,9,.96);z-index:888;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
 #pauseOverlay.on{display:flex}
-.pause-icon{font-size:4rem;color:var(--gold)}
-.pause-txt{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);text-align:center}
+.pause-icon{font-size:5rem;color:var(--gold)}
+.pause-txt{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid);text-align:center;line-height:2}
 
-/* ─── common elements ─── */
+/* common */
 .btn{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.2rem;border:1px solid var(--border2);background:transparent;color:var(--text);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:.4rem}
 .btn:hover{border-color:var(--gold);color:var(--gold)}
 .btn:disabled{opacity:.35;cursor:default;pointer-events:none}
-.btn.red{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.red:hover{background:#9e2a22}
-.btn.amber{background:var(--gold);border-color:var(--gold);color:var(--bg)}
-.btn.amber:hover{background:#ae8e38}
-.btn.ghost{border-color:var(--border);color:var(--dim)}
-.btn.ghost:hover{border-color:var(--mid);color:var(--text)}
+.btn.red{background:var(--accent);border-color:var(--accent);color:#fff}.btn.red:hover{background:#9e2a22}
+.btn.amber{background:var(--gold);border-color:var(--gold);color:var(--bg)}.btn.amber:hover{background:#ae8e38}
+.btn.ghost{border-color:var(--border);color:var(--dim)}.btn.ghost:hover{border-color:var(--mid);color:var(--text)}
 .btn.sm{font-size:.55rem;padding:.35rem .8rem}
 .tag{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
 .tag::after{content:'';flex:1;height:1px;background:var(--border)}
 input,textarea{width:100%;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.65rem;padding:.65rem;outline:none;resize:vertical}
 input:focus,textarea:focus{border-color:var(--gold)}
 .err{font-size:.58rem;color:var(--accent);margin-top:.4rem;display:none}
-
-/* ─── lang toggle ─── */
 .lang-btn{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;padding:.3rem .7rem;border:1px solid var(--border2);background:transparent;color:var(--dim);cursor:pointer;transition:all .15s}
 .lang-btn:hover{border-color:var(--gold);color:var(--gold)}
 .lang-btn.active{border-color:var(--gold);background:var(--gold);color:var(--bg)}
-
-/* ════════════════════════════════════════
-   CONFIG SCREEN
-════════════════════════════════════════ */
-#s-cfg{align-items:center;justify-content:center;padding:2rem 1rem;background:var(--bg)}
-.cfg-box{width:100%;max-width:460px;border:1px solid var(--border2);background:var(--surface);padding:2.5rem 2rem}
-.logo-big{font-size:4rem;line-height:.9;margin-bottom:.15rem}
-.logo-big .red{color:var(--accent)}
-.logo-sub{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);padding-bottom:1.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border)}
-.cfg-step{margin-bottom:2rem}
-.cfg-sn{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
-.cfg-st{font-size:.75rem;margin-bottom:.6rem}
-.cfg-sd{font-size:.6rem;line-height:1.7;color:var(--mid);margin-bottom:.75rem}
-.cfg-sd a{color:var(--gold);text-decoration:none}
-.cfg-sd a:hover{text-decoration:underline}
 hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
-.cnt-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
 .cnt{width:40px;height:40px;border:1px solid var(--border2);background:transparent;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--dim);cursor:pointer;transition:all .15s}
 .cnt:hover{border-color:var(--text);color:var(--text)}
 .cnt.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.role-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.75rem}
-.role-card{border:1px solid var(--border2);padding:1rem;background:var(--surface2);cursor:pointer;transition:all .15s;text-align:center}
-.role-card:hover{border-color:var(--gold)}
-.role-icon{font-size:1.8rem;margin-bottom:.4rem}
-.role-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em}
-.role-desc{font-size:.55rem;color:var(--mid);margin-top:.2rem;line-height:1.5}
-#joinArea{display:none;margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem}
-.num-row{display:flex;gap:.4rem;flex-wrap:wrap;margin:.5rem 0}
+.flash{position:fixed;top:1rem;left:50%;transform:translateX(-50%);padding:.6rem 1.5rem;background:var(--gold);color:var(--bg);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;z-index:9000;animation:flashIn .2s ease;pointer-events:none;white-space:nowrap}
+@keyframes flashIn{from{opacity:0;top:.4rem}to{opacity:1;top:1rem}}
 
-/* ════════════════════════════════════════
-   FACILITATOR SCREEN
-════════════════════════════════════════ */
+/* ═══ CONFIG SCREEN ═══ */
+#s-cfg{align-items:center;justify-content:center;padding:2rem 1rem;background:var(--bg)}
+.cfg-box{width:100%;max-width:480px;border:1px solid var(--border2);background:var(--surface);padding:2.5rem 2rem}
+.logo-big{font-size:4rem;line-height:.9;margin-bottom:.15rem}
+.logo-big .red{color:var(--accent)}
+.logo-sub{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);padding-bottom:1.5rem;margin-bottom:2rem;border-bottom:1px solid var(--border)}
+.cfg-sn{font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.3rem}
+.cfg-st{font-size:.75rem;margin-bottom:.6rem}
+.cfg-sd{font-size:.6rem;line-height:1.7;color:var(--mid);margin-bottom:.75rem}
+.cfg-sd a{color:var(--gold);text-decoration:none}.cfg-sd a:hover{text-decoration:underline}
+.cnt-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.75rem}
+
+/* download success box */
+.dl-box{border:1px solid var(--green);padding:1rem;background:rgba(45,138,78,.06);margin-top:1rem;display:none}
+.dl-box-title{font-size:.65rem;color:var(--green);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.dl-box-desc{font-size:.58rem;color:var(--mid);line-height:1.7;margin-bottom:.7rem}
+
+/* ═══ FACILITATOR SCREEN ═══ */
 #s-fac{background:var(--bg)}
 .fhdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap;gap:.6rem}
 .fhdr-left{display:flex;align-items:center;gap:1rem}
-.flogo{font-size:1.5rem;line-height:1}
-.flogo .red{color:var(--accent)}
+.flogo{font-size:1.5rem;line-height:1}.flogo .red{color:var(--accent)}
 .session-badge{font-size:.58rem;letter-spacing:.12em;color:var(--mid)}
 .session-code-big{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);letter-spacing:.15em}
 .fhdr-right{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .sil-box{display:flex;align-items:center;gap:.5rem;padding:.35rem .75rem;border:1px solid var(--border2);background:var(--surface2)}
 .sil-lbl{font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 .sil-n{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent);min-width:36px;text-align:center;line-height:1}
-
-.fbody{flex:1;display:grid;grid-template-columns:1fr 270px;overflow:hidden;min-height:0}
-@media(max-width:680px){.fbody{grid-template-columns:1fr}}
-
-/* player grid */
-.pgrid{padding:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem;align-content:start;overflow-y:auto}
-.pc{border:1px solid var(--border2);padding:.85rem;background:var(--surface);position:relative;transition:border-color .25s,box-shadow .25s;min-height:100px;cursor:default}
-.pc.waiting{}
+.fbody{flex:1;display:grid;grid-template-columns:1fr 280px;overflow:hidden;min-height:0}
+@media(max-width:720px){.fbody{grid-template-columns:1fr}}
+.pgrid{padding:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:.7rem;align-content:start;overflow-y:auto}
+.pc{border:1px solid var(--border2);padding:.85rem;background:var(--surface);position:relative;transition:border-color .25s,box-shadow .25s;min-height:100px}
 .pc.ready{border-color:var(--accent)}
 .pc.performing{border-color:var(--gold);box-shadow:0 0 14px rgba(196,160,68,.18)}
 .pc.done{opacity:.38}
-.pc.paused-s{border-color:var(--dim)}
 .pc-n{font-size:2rem;line-height:1;color:var(--dim)}
-.pc.performing .pc-n{color:var(--gold)}
-.pc.ready .pc-n{color:var(--accent)}
+.pc.performing .pc-n{color:var(--gold)}.pc.ready .pc-n{color:var(--accent)}
 .pc-row{display:flex;align-items:center;gap:.4rem;margin-top:.25rem}
 .pc-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0}
 .pc.ready .pc-dot{background:var(--accent)}
@@ -122,53 +101,49 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
 .pc-pos{position:absolute;top:.4rem;right:.5rem;font-size:.46rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
 .pc.performing .pc-pos{color:var(--gold)}
 .pc-prev{font-size:.52rem;color:var(--mid);margin-top:.35rem;line-height:1.4;font-style:italic}
-
-/* sidebar */
 .fsb{border-left:1px solid var(--border);padding:1.2rem;background:var(--surface);display:flex;flex-direction:column;gap:1.1rem;overflow-y:auto}
-@media(max-width:680px){.fsb{border-left:none;border-top:1px solid var(--border)}}
-.ql{}
+@media(max-width:720px){.fsb{border-left:none;border-top:1px solid var(--border)}}
 .qi{display:flex;align-items:center;gap:.5rem;padding:.35rem 0;border-bottom:1px solid var(--border);font-size:.62rem}
-.qi.cur{color:var(--gold)}
-.qi.dq{color:var(--dim);text-decoration:line-through}
+.qi.cur{color:var(--gold)}.qi.dq{color:var(--dim);text-decoration:line-through}
 .qn{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;min-width:22px}
-.big-btn{width:100%;padding:.85rem;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.1em;border:none;cursor:pointer;transition:background .15s;color:#fff}
-.big-btn.next{background:var(--accent)}
-.big-btn.next:hover{background:#9e2a22}
-.big-btn.next:disabled{background:var(--border2);color:var(--dim);cursor:default}
-.big-btn.pause{background:var(--surface2);border:1px solid var(--gold);color:var(--gold)}
-.big-btn.pause:hover{background:var(--gold);color:var(--bg)}
-.big-btn.pause.active{background:var(--gold);color:var(--bg)}
-.copy-box{border:1px solid var(--border);padding:.7rem;background:var(--bg)}
-.copy-url{font-size:.5rem;word-break:break-all;color:var(--dim);margin:.3rem 0}
+.big-btn{width:100%;padding:.85rem;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.1em;border:1px solid transparent;cursor:pointer;transition:all .15s;color:#fff}
+.big-btn.next{background:var(--accent);border-color:var(--accent)}.big-btn.next:hover{background:#9e2a22}
+.big-btn.next:disabled{background:var(--border2);border-color:var(--border2);color:var(--dim);cursor:default}
+.big-btn.pause-btn{background:transparent;border-color:var(--gold);color:var(--gold)}.big-btn.pause-btn:hover,.big-btn.pause-btn.active{background:var(--gold);color:var(--bg)}
+/* QR box */
+.qr-box{border:1px solid var(--border);padding:.8rem;background:var(--bg);text-align:center}
+.qr-code-wrap{display:flex;justify-content:center;margin:.6rem 0;background:#fff;padding:.5rem;display:inline-block}
+.qr-url{font-size:.48rem;word-break:break-all;color:var(--dim);margin:.3rem 0;text-align:left}
 .sbtn{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .65rem;border:1px solid var(--border2);background:transparent;color:var(--dim);cursor:pointer;transition:all .15s}
-.sbtn:hover{border-color:var(--gold);color:var(--gold)}
-.sbtn.ok{border-color:var(--green);color:var(--green)}
+.sbtn:hover{border-color:var(--gold);color:var(--gold)}.sbtn.ok{border-color:var(--green);color:var(--green)}
 .sb-actions{display:flex;flex-direction:column;gap:.5rem}
 .danger-btn{width:100%;padding:.55rem;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--border2);background:transparent;color:var(--dim);cursor:pointer;transition:all .15s}
 .danger-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ════════════════════════════════════════
-   PLAYER SCREEN
-════════════════════════════════════════ */
+/* ═══ JOIN SCREEN (participant, no config) ═══ */
+#s-join{align-items:center;justify-content:center;padding:2rem 1rem;background:var(--bg)}
+.join-box{width:100%;max-width:360px;border:1px solid var(--border2);background:var(--surface);padding:2rem 1.5rem}
+.join-logo{font-size:2.5rem;line-height:.9;margin-bottom:.15rem}
+.join-logo .red{color:var(--accent)}
+.join-sub{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border)}
+.join-session-code{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--gold);letter-spacing:.2em;margin-bottom:.3rem}
+.join-session-label{font-size:.52rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2rem}
+.num-row{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem}
+
+/* ═══ PLAYER SCREEN ═══ */
 #s-player{align-items:center;justify-content:flex-start;padding:1.5rem 1rem 5rem;background:var(--bg);min-height:100vh}
 .pw{width:100%;max-width:420px;margin:0 auto}
 .pbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
 .pbar-left{display:flex;align-items:baseline;gap:.7rem}
 .pbig{font-size:3.5rem;line-height:1;color:var(--dim)}
-.ptxt{}
 .ptitle{font-size:.72rem;color:var(--text)}
 .psub{font-size:.52rem;color:var(--dim);margin-top:.1rem}
 .pill{display:inline-flex;align-items:center;gap:.35rem;padding:.28rem .75rem;border:1px solid var(--border2);font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;transition:all .3s}
-.pill.waiting{color:var(--dim)}
-.pill.ready{border-color:var(--accent);color:var(--accent)}
-.pill.performing{border-color:var(--gold);color:var(--gold)}
-.pill.done{color:var(--dim)}
-.wait-box{text-align:center;padding:2rem 1rem;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--border);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.pill.waiting{color:var(--dim)}.pill.ready{border-color:var(--accent);color:var(--accent)}
+.pill.performing{border-color:var(--gold);color:var(--gold)}.pill.done{color:var(--dim)}
 .die-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin-bottom:1rem}
-.do{aspect-ratio:1;border:1.5px solid var(--border2);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.9rem;cursor:pointer;transition:all .15s;position:relative;user-select:none}
-.do:active{transform:scale(.91)}
-.do:hover{border-color:var(--mid)}
+.do{aspect-ratio:1;border:1.5px solid var(--border2);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.9rem;cursor:pointer;transition:all .15s;user-select:none}
+.do:active{transform:scale(.91)}.do:hover{border-color:var(--mid)}
 .do.sel{border-color:var(--accent);background:rgba(184,50,40,.1);box-shadow:0 0 10px rgba(184,50,40,.15)}
 .do-n{font-size:.45rem;color:var(--dim);font-family:'IBM Plex Mono',monospace;margin-top:.15rem}
 .struct-card{border:1px solid var(--border2);background:var(--surface);padding:1.2rem;display:none}
@@ -181,107 +156,83 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
 .sc-text{font-size:.88rem;line-height:1.7;color:var(--text)}
 .struct-actions{display:flex;gap:.5rem;margin-top:1rem;flex-wrap:wrap}
 .pfooter{position:fixed;bottom:0;left:0;right:0;padding:.55rem 1rem;border-top:1px solid var(--border);background:var(--surface);font-size:.5rem;letter-spacing:.08em;color:var(--dim);display:flex;justify-content:space-between;align-items:center}
-
-/* notification flash */
-.flash{position:fixed;top:1rem;left:50%;transform:translateX(-50%);padding:.6rem 1.5rem;background:var(--gold);color:var(--bg);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;z-index:9000;animation:flashIn .2s ease;pointer-events:none}
-@keyframes flashIn{from{opacity:0;top:.4rem}to{opacity:1;top:1rem}}
 </style>
 </head>
 <body>
 
-<!-- loader -->
-<div id="loader"><div class="spin"></div><div class="load-txt" id="loaderTxt">Loading…</div></div>
+<div id="loader"><div class="spin"></div><div class="load-txt" id="loaderTxt">…</div></div>
 
-<!-- pause overlay (player only) -->
 <div id="pauseOverlay">
   <div class="pause-icon">⏸</div>
   <div class="pause-txt" id="pauseTxt">Sesja wstrzymana<br>Session paused</div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     CONFIG
-═══════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     CONFIG — only facilitator, first time
+═══════════════════════════════════════════ -->
 <div id="s-cfg" class="scr">
  <div class="cfg-box">
   <div class="logo-big B">KOŚCI <span class="red">DES</span></div>
   <div class="logo-sub">Live Workshop · Piotr Lachert, 1976</div>
 
-  <!-- Firebase config -->
-  <div class="cfg-step" id="step1">
-   <div class="cfg-sn" data-t="step1n">Krok 1</div>
-   <div class="cfg-st" data-t="step1t">Konfiguracja Firebase</div>
+  <div style="margin-bottom:2rem">
+   <div class="cfg-sn">Krok 1 — Firebase</div>
+   <div class="cfg-st">Wklej konfigurację</div>
    <div class="cfg-sd">
-    <span data-t="step1d1">Wejdź na </span>
-    <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a>
-    <span data-t="step1d2"> → nowy projekt → Realtime Database (tryb testowy) → Ustawienia projektu → dodaj aplikację Web → skopiuj <code>firebaseConfig</code> poniżej.</span>
+    Wejdź na <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a>
+    → projekt KOSCI DES → ⚙ Project settings → Your apps → dodaj Web app → skopiuj obiekt <code>firebaseConfig</code> i wklej poniżej jako JSON (klucze w cudzysłowach).
    </div>
-   <textarea id="fbCfg" rows="7" placeholder='{&#10;  "apiKey": "...",&#10;  "databaseURL": "https://....firebaseio.com",&#10;  "projectId": "..."&#10;}'></textarea>
-   <div class="err" id="cfgErr">Nieprawidłowy JSON / Invalid config JSON</div>
-   <div style="margin-top:.7rem;display:flex;gap:.5rem;flex-wrap:wrap">
-    <button class="btn amber" onclick="saveConfig()" data-t="saveCfg">Zapisz konfigurację</button>
+   <textarea id="fbCfg" rows="7" placeholder='{&#10;  "apiKey": "...",&#10;  "databaseURL": "https://....europe-west1.firebasedatabase.app",&#10;  "projectId": "..."&#10;}'></textarea>
+   <div class="err" id="cfgErr">Nieprawidłowy JSON — sprawdź czy klucze są w cudzysłowach</div>
+   <div style="margin-top:.75rem;display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="btn amber" onclick="saveAndDownload()">⬇ Zapisz i pobierz gotowy plik</button>
+   </div>
+
+   <div class="dl-box" id="dlBox">
+    <div class="dl-box-title">✓ Plik gotowy do wgrania</div>
+    <div class="dl-box-desc">
+     Pobierz plik i wgraj go na GitHub Pages lub Netlify Drop.<br>
+     Wszystkie urządzenia (Twoje i uczestników) używają tego jednego pliku — <strong>nikt nie wkleja konfiguracji</strong>.
+    </div>
+    <a id="dlLink" class="btn amber" download="kosci-des.html">⬇ Pobierz kosci-des.html</a>
    </div>
   </div>
 
   <hr class="div">
 
-  <!-- Role select -->
-  <div class="cfg-step" id="step2" style="opacity:.4;pointer-events:none">
-   <div class="cfg-sn" data-t="step2n">Krok 2</div>
-   <div class="cfg-st" data-t="step2t">Wybierz rolę</div>
-   <!-- Facilitator -->
-   <div class="tag" data-t="tagFac">Prowadzący</div>
+  <div style="opacity:.5" id="step2cfg">
+   <div class="cfg-sn">Krok 2 — Sesja</div>
+   <div class="cfg-st">Liczba uczestników</div>
    <div class="cnt-row" id="cntRow"></div>
-   <button class="btn red" onclick="createSession()" data-t="newSess">▶ Nowa sesja</button>
-
-   <hr class="div">
-
-   <!-- Participant -->
-   <div class="tag" data-t="tagPart">Uczestnik</div>
-   <div class="cfg-sd" data-t="joinDesc">Podaj kod sesji od prowadzącego.</div>
-   <input id="codeIn" type="text" style="text-transform:uppercase;letter-spacing:.15em;font-size:.8rem" placeholder="Kod sesji…" oninput="onCodeInput()">
-   <div id="joinArea">
-    <div style="font-size:.55rem;color:var(--mid);margin:.5rem 0" data-t="chooseNum">Wybierz swój numer:</div>
-    <div class="num-row" id="numRow"></div>
-    <div class="err" id="joinErr" data-t="notFound">Nie znaleziono sesji.</div>
-   </div>
-   <div style="margin-top:.6rem">
-    <button class="btn" onclick="joinSession()" data-t="joinBtn">Dołącz →</button>
-   </div>
+   <button class="btn red" id="newSessBtn" onclick="createSession()" disabled>▶ Nowa sesja</button>
   </div>
 
-  <!-- Lang toggle at bottom -->
   <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;align-items:center;gap:.6rem">
-   <span style="font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)" data-t="langLabel">Język:</span>
+   <span style="font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)">Język:</span>
    <button class="lang-btn active" id="lbPL" onclick="setLang('pl')">PL</button>
    <button class="lang-btn" id="lbEN" onclick="setLang('en')">EN</button>
   </div>
  </div>
 </div>
 
-<!-- ═══════════════════════════════════════
+<!-- ═══════════════════════════════════════════
      FACILITATOR
-═══════════════════════════════════════ -->
+═══════════════════════════════════════════ -->
 <div id="s-fac" class="scr">
  <div class="fhdr">
   <div class="fhdr-left">
    <div class="flogo B">KOŚCI <span class="red">DES</span></div>
    <div>
-    <div class="session-badge" data-t="sessionCode">Kod sesji</div>
+    <div class="session-badge">Kod sesji / Session code</div>
     <div class="session-code-big" id="fcodeDisp">—</div>
    </div>
   </div>
   <div class="fhdr-right">
-   <!-- pause btn -->
-   <button class="big-btn pause" id="pauseBtn" onclick="togglePause()" style="width:auto;padding:.4rem 1rem;font-size:.9rem" data-t="pauseBtn">⏸ Pauza</button>
-   <!-- silence -->
+   <button class="big-btn pause-btn" id="pauseBtn" onclick="togglePause()" style="width:auto;padding:.4rem 1.1rem;font-size:.9rem">⏸ Pauza</button>
    <div class="sil-box">
-    <div>
-     <div class="sil-lbl" data-t="silLabel">Cisza</div>
-     <div class="sil-n" id="silDisp">—</div>
-    </div>
+    <div><div class="sil-lbl" id="silLbl">Cisza</div><div class="sil-n" id="silDisp">—</div></div>
     <button class="btn sm" id="silBtn" onclick="toggleSil()">▶</button>
    </div>
-   <!-- lang -->
    <div style="display:flex;gap:.3rem">
     <button class="lang-btn active" id="flbPL" onclick="setLang('pl')">PL</button>
     <button class="lang-btn" id="flbEN" onclick="setLang('en')">EN</button>
@@ -292,55 +243,74 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
  <div class="fbody">
   <div class="pgrid" id="pgrid"></div>
   <div class="fsb">
-   <!-- queue -->
    <div>
-    <div class="tag" data-t="tagQueue">Kolejka</div>
-    <div class="ql" id="qlist"></div>
+    <div class="tag" id="tagQueue">Kolejka</div>
+    <div id="qlist"></div>
    </div>
-   <!-- next -->
-   <button class="big-btn next" id="nextBtn" onclick="doNext()" disabled data-t="nextBtn">NASTĘPNY ›</button>
-   <!-- pause -->
-   <!-- share -->
+   <button class="big-btn next" id="nextBtn" onclick="doNext()" disabled id="nextBtn">NASTĘPNY ›</button>
+   <button class="big-btn pause-btn" id="pauseBtn2" onclick="togglePause()">⏸ PAUZA</button>
+
+   <!-- QR -->
    <div>
-    <div class="tag" data-t="tagShare">Link dla uczestników</div>
-    <div class="copy-box">
-     <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);letter-spacing:.15em" id="fcodeDisp2">—</div>
-     <div class="copy-url" id="shareUrl"></div>
+    <div class="tag">QR — uczestnicy</div>
+    <div class="qr-box">
+     <div style="display:flex;justify-content:center">
+      <div class="qr-code-wrap"><canvas id="qrCanvas" width="140" height="140"></canvas></div>
+     </div>
+     <div class="qr-url" id="qrUrl">—</div>
      <button class="sbtn" id="cpBtn" onclick="copyLink()">Kopiuj link</button>
     </div>
    </div>
+
    <!-- legend -->
    <div>
-    <div class="tag" data-t="tagLegend">Legenda</div>
+    <div class="tag" id="tagLegend">Legenda</div>
     <div style="font-size:.56rem;color:var(--dim);line-height:2">
-     <span style="color:var(--dim)">○</span> <span data-t="legW">Oczekuje</span><br>
-     <span style="color:var(--accent)">○</span> <span data-t="legR">Kość wybrana</span><br>
-     <span style="color:var(--gold)">○</span> <span data-t="legP">Wykonuje</span><br>
-     <span>—</span> <span data-t="legD">Zakończył</span>
+     <span style="color:var(--dim)">○</span> <span id="legW">Oczekuje</span><br>
+     <span style="color:var(--accent)">○</span> <span id="legR">Kość wybrana</span><br>
+     <span style="color:var(--gold)">○</span> <span id="legP">Wykonuje</span><br>
+     <span>—</span> <span id="legD">Zakończył</span>
     </div>
    </div>
-   <!-- danger actions -->
+
    <div class="sb-actions">
-    <div class="tag" data-t="tagActions">Akcje</div>
-    <button class="danger-btn" onclick="resetSession()" data-t="resetBtn">↺ Zacznij od nowa</button>
-    <button class="danger-btn" onclick="endSession()" data-t="endBtn">✕ Zakończ sesję</button>
+    <div class="tag" id="tagActions">Akcje</div>
+    <button class="danger-btn" onclick="resetSession()" id="resetBtn">↺ Zacznij od nowa</button>
+    <button class="danger-btn" onclick="endSession()" id="endBtn">✕ Zakończ sesję</button>
    </div>
   </div>
  </div>
 </div>
 
-<!-- ═══════════════════════════════════════
+<!-- ═══════════════════════════════════════════
+     JOIN — participant opens ?s=CODE link
+═══════════════════════════════════════════ -->
+<div id="s-join" class="scr">
+ <div class="join-box">
+  <div class="join-logo B">KOŚCI <span class="red">DES</span></div>
+  <div class="join-sub">Piotr Lachert, 1976</div>
+  <div class="join-session-label" id="joinSessLabel">Sesja / Session</div>
+  <div class="join-session-code B" id="joinSessCode">—</div>
+  <div style="font-size:.62rem;color:var(--mid);margin-bottom:.5rem" id="joinNumLabel">Wybierz swój numer / Choose your number:</div>
+  <div class="num-row" id="numRow"></div>
+  <div class="err" id="joinErr">Nie znaleziono sesji / Session not found</div>
+  <button class="btn red" onclick="doJoin()" id="joinBtn" style="width:100%;justify-content:center;margin-top:.5rem">Dołącz / Join →</button>
+  <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;gap:.4rem">
+   <button class="lang-btn active" id="jlbPL" onclick="setLang('pl')">PL</button>
+   <button class="lang-btn" id="jlbEN" onclick="setLang('en')">EN</button>
+  </div>
+ </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
      PLAYER
-═══════════════════════════════════════ -->
+═══════════════════════════════════════════ -->
 <div id="s-player" class="scr">
  <div class="pw">
   <div class="pbar">
    <div class="pbar-left">
     <div class="pbig B" id="pnum">—</div>
-    <div class="ptxt">
-     <div class="ptitle">KOŚCI DES</div>
-     <div class="psub">Piotr Lachert, 1976</div>
-    </div>
+    <div><div class="ptitle">KOŚCI DES</div><div class="psub">Piotr Lachert, 1976</div></div>
    </div>
    <div style="display:flex;gap:.3rem">
     <button class="lang-btn active" id="plbPL" onclick="setLang('pl')">PL</button>
@@ -350,32 +320,25 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
 
   <div class="pill waiting" id="statusPill"><span id="statusTxt">—</span></div>
 
-  <div id="waitBox" class="wait-box" style="display:none" data-t="waiting">Czekaj na swoją kolej…</div>
-
-  <!-- die selector -->
   <div id="diePanel">
-   <div class="tag" style="margin-bottom:.6rem" data-t="selectDie">Wybierz wynik rzutu</div>
+   <div class="tag" id="selectDieTag">Wybierz wynik rzutu</div>
    <div class="die-grid" id="dieGrid"></div>
-   <button class="btn red" id="confirmBtn" onclick="confirmDie()" disabled style="width:100%;padding:.85rem;font-size:.75rem;justify-content:center" data-t="confirmDie">Potwierdź</button>
+   <button class="btn red" id="confirmBtn" onclick="confirmDie()" disabled style="width:100%;padding:.85rem;font-size:.75rem;justify-content:center" id="confirmDieBtn">Potwierdź</button>
   </div>
 
-  <!-- structure display -->
   <div class="struct-card" id="structCard">
    <div class="sc-hdr">
     <div class="sc-face" id="scFace">⚀</div>
-    <div>
-     <div class="sc-cat" id="scCat">—</div>
-    </div>
+    <div><div class="sc-cat" id="scCat">—</div></div>
    </div>
-   <div id="scAud" class="aud-flag" style="display:none" data-t="faceAud">▶ Twarzą do publiczności</div>
+   <div id="scAud" class="aud-flag" style="display:none">▶ Twarzą do publiczności</div>
    <div class="sc-text" id="scTxt">—</div>
    <div class="struct-actions">
-    <button class="btn ghost sm" onclick="doReroll()" data-t="rerollBtn">⟳ Nowa struktura</button>
-    <button class="btn ghost sm" onclick="showDiePanel()" data-t="changeDie">← Zmień kość</button>
+    <button class="btn ghost sm" onclick="doReroll()" id="rerollBtn">⟳ Nowa struktura</button>
+    <button class="btn ghost sm" onclick="showDiePanel()" id="changeDieBtn">← Zmień kość</button>
    </div>
   </div>
  </div>
-
  <div class="pfooter">
   <span>KOŚCI DES · Piotr Lachert © 1976</span>
   <span id="pFooter">—</span>
@@ -385,71 +348,23 @@ hr.div{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-<script>
-// ══════════════════════════════════════════════════════════
-//  TRANSLATIONS
-// ══════════════════════════════════════════════════════════
-const T = {
-  step1n:    {pl:'Krok 1',      en:'Step 1'},
-  step1t:    {pl:'Konfiguracja Firebase', en:'Firebase Configuration'},
-  step1d1:   {pl:'Wejdź na ',  en:'Go to '},
-  step1d2:   {pl:' → nowy projekt → Realtime Database (tryb testowy) → Ustawienia projektu → dodaj aplikację Web → skopiuj firebaseConfig poniżej.', en:' → new project → Realtime Database (test mode) → Project Settings → add Web app → paste firebaseConfig below.'},
-  saveCfg:   {pl:'Zapisz konfigurację', en:'Save configuration'},
-  step2n:    {pl:'Krok 2',      en:'Step 2'},
-  step2t:    {pl:'Wybierz rolę', en:'Choose role'},
-  tagFac:    {pl:'Prowadzący',  en:'Facilitator'},
-  newSess:   {pl:'▶ Nowa sesja', en:'▶ New session'},
-  tagPart:   {pl:'Uczestnik',   en:'Participant'},
-  joinDesc:  {pl:'Podaj kod sesji od prowadzącego.', en:'Enter the session code from your facilitator.'},
-  chooseNum: {pl:'Wybierz swój numer:', en:'Choose your number:'},
-  notFound:  {pl:'Nie znaleziono sesji.', en:'Session not found.'},
-  joinBtn:   {pl:'Dołącz →',   en:'Join →'},
-  langLabel: {pl:'Język:',     en:'Language:'},
-  sessionCode:{pl:'Kod sesji', en:'Session code'},
-  pauseBtn:  {pl:'⏸ Pauza',   en:'⏸ Pause'},
-  pauseBtnResume:{pl:'▶ Wznów', en:'▶ Resume'},
-  silLabel:  {pl:'Cisza',      en:'Silence'},
-  tagQueue:  {pl:'Kolejka',    en:'Queue'},
-  nextBtn:   {pl:'NASTĘPNY ›', en:'NEXT ›'},
-  tagShare:  {pl:'Link dla uczestników', en:'Participant link'},
-  tagLegend: {pl:'Legenda',    en:'Legend'},
-  legW:      {pl:'Oczekuje',   en:'Waiting'},
-  legR:      {pl:'Kość wybrana', en:'Die selected'},
-  legP:      {pl:'Wykonuje',   en:'Performing'},
-  legD:      {pl:'Zakończył',  en:'Done'},
-  tagActions:{pl:'Akcje',      en:'Actions'},
-  resetBtn:  {pl:'↺ Zacznij od nowa', en:'↺ Restart session'},
-  endBtn:    {pl:'✕ Zakończ sesję', en:'✕ End session'},
-  waiting:   {pl:'Czekaj na swoją kolej…', en:'Wait for your turn…'},
-  selectDie: {pl:'Wybierz wynik rzutu', en:'Select die result'},
-  confirmDie:{pl:'Potwierdź',  en:'Confirm'},
-  faceAud:   {pl:'▶ Twarzą do publiczności', en:'▶ Face the audience'},
-  rerollBtn: {pl:'⟳ Nowa struktura', en:'⟳ New structure'},
-  changeDie: {pl:'← Zmień kość', en:'← Change die'},
-  statusWait:{pl:'Oczekuje',   en:'Waiting'},
-  statusReady:{pl:'Gotowy',    en:'Ready'},
-  statusPerf:{pl:'▶ Wykonujesz', en:'▶ Performing now'},
-  statusDone:{pl:'Zakończono', en:'Done'},
-  copyBtn:   {pl:'Kopiuj link', en:'Copy link'},
-  copied:    {pl:'✓ Skopiowano!', en:'✓ Copied!'},
-  resetConfirm:{pl:'Zresetować sesję? Wszyscy uczestnicy wrócą do początku.', en:'Restart session? All participants will return to start.'},
-  endConfirm:{pl:'Zakończyć sesję?', en:'End session?'},
-  pausedOverlay:{pl:'Sesja wstrzymana\nSession paused', en:'Session paused'},
-  turnFlash: {pl:'Twoja kolej!', en:'Your turn!'},
-  loaderCreate:{pl:'Tworzenie sesji…', en:'Creating session…'},
-  loaderJoin:{pl:'Dołączanie…', en:'Joining…'},
-  loaderCheck:{pl:'Sprawdzanie…', en:'Checking…'},
-};
 
-// ══════════════════════════════════════════════════════════
-//  STRUCTURE DATA
-// ══════════════════════════════════════════════════════════
-const S = {
+<script>
+// ══════════════════════════════════════
+// EMBEDDED CONFIG — filled automatically
+// when facilitator uses "Save and download"
+// ══════════════════════════════════════
+const EMBEDDED_CONFIG = null; /* DO_NOT_EDIT_THIS_LINE */
+
+// ══════════════════════════════════════
+// STRUCTURE DATA
+// ══════════════════════════════════════
+const S={
   1:{face:'⚀',cat:{pl:'Akcje cielesne / gestyczne',en:'Bodily & gestural actions'},items:[
     {pl:'Podnieść rękę, zamknąć pięść.',en:'Raise one hand, close it into a fist.',a:0},
     {pl:'Podnieść rękę, poruszać palcami.',en:'Raise one hand, move the fingers.',a:0},
-    {pl:'Podnieść ręce na krzyż, zrobić kilka ruchów udając lot ptaka.',en:'Cross your arms, make a few bird-flight movements.',a:0},
-    {pl:'Wyprostować rękę, wskazać palcem parę osób na sali, zakończyć gestem kciuka (O.K.).',en:'Extend your arm to point at a few people in the room, finish with a thumbs-up (O.K.).',a:1},
+    {pl:'Podnieść ręce na krzyż, zrobić kilka ruchów udając lot ptaka.',en:'Cross arms, make a few bird-flight movements.',a:0},
+    {pl:'Wyprostować rękę, wskazać palcem parę osób na sali, zakończyć gestem kciuka (O.K.).',en:'Point at a few people in the room, finish with a thumbs-up (O.K.).',a:1},
     {pl:'Zagrać na nosie.',en:'Play your nose like an instrument.',a:1},
     {pl:'Ożywić sobie uszy pięknymi palcami (vibrato).',en:'Animate your ears with your beautiful fingers (vibrato).',a:0},
   ]},
@@ -464,14 +379,14 @@ const S = {
   3:{face:'⚂',cat:{pl:'Akcje ruchowe',en:'Movement actions'},items:[
     {pl:'Wstać, stanąć na półpalca, zejść na pięty, usiąść.',en:'Stand up, rise on tiptoe, lower to heels, sit down.',a:0},
     {pl:'Biec dookoła wokół nieruchomego instrumentu.',en:'Run around a stationary instrument.',a:0},
-    {pl:'Iść na spotkanie wybranej osoby spośród publiczności, zatrzymać się, wrócić.',en:'Walk towards a chosen person from the audience, stop, return to your place.',a:1},
+    {pl:'Iść na spotkanie wybranej osoby spośród publiczności, zatrzymać się, wrócić.',en:'Walk towards a chosen person from the audience, stop, return.',a:1},
     {pl:'Zrobić parę kroków walca po całym holu.',en:'Take a few waltz steps around the entire room.',a:0},
     {pl:'Usiąść, uderzać stopami szybko i regularnie.',en:'Sit down, stamp your feet quickly and regularly.',a:0},
     {pl:'Usiąść, uderzać miękko kolanem o kolano.',en:'Sit down, softly knock knee against knee.',a:0},
   ]},
   4:{face:'⚃',cat:{pl:'Krótkie dźwięki / ekspresja',en:'Short sounds & expression'},items:[
     {pl:'Wiele szybkich powtórzeń krótkiego dźwięku.',en:'Many rapid repetitions of a short sound.',a:0},
-    {pl:'Dźwięk wokalny przedłużony indiańskim jodłowaniem.',en:'A vocal sound extended with Native American-style yodelling.',a:1},
+    {pl:'Dźwięk wokalny przedłużony indiańskim jodłowaniem.',en:'A vocal sound extended with yodelling.',a:1},
     {pl:'Dźwięk krótki, bardzo czysty.',en:'A very short and very clean sound.',a:0},
     {pl:'Krzyknąć słowo „NIE" silnie i krótko.',en:'Shout the word "NO" strongly and briefly.',a:1},
     {pl:'Kilka dźwięków krótkich i bardzo niskich.',en:'A few short and very low sounds.',a:0},
@@ -479,7 +394,7 @@ const S = {
   ]},
   5:{face:'⚄',cat:{pl:'Akcje z publicznością / mimika',en:'Audience actions & mime'},items:[
     {pl:'Odwrócić głowę w stronę publiczności, uśmiechnąć się.',en:'Turn your head towards the audience, smile.',a:1},
-    {pl:'Przeglądać się w swojej dłoni, pokazać język.',en:'Look at your palm as if it were a mirror, stick out your tongue.',a:0},
+    {pl:'Przeglądać się w swojej dłoni, pokazać język.',en:'Look at your palm as a mirror, stick out your tongue.',a:0},
     {pl:'Oddalić się od instrumentu, otworzyć usta jak do ziewania, podskoczyć parę razy, paść.',en:'Step away, open your mouth as if yawning, jump a few times, fall.',a:0},
     {pl:'Ręka prawa, ręka lewa, pauza, ręka prawa.',en:'Right hand, left hand, pause, right hand.',a:0},
     {pl:'Ukłonić się publiczności w czterech kierunkach.',en:'Bow to the audience in four directions.',a:1},
@@ -488,34 +403,68 @@ const S = {
   6:{face:'⚅',cat:{pl:'Uderzenia / niekonwencjonalne brzmienia',en:'Strikes & unconventional sounds'},items:[
     {pl:'Klaskać.',en:'Clap.',a:1},
     {pl:'Uderzać instrument — seria krótkich dźwięków (rallentando).',en:'Strike the instrument — a series of short sounds (rallentando).',a:0},
-    {pl:'Uderzać instrument — seria krótkich dźwięków w nerwowym rytmie ad libitum.',en:'Strike the instrument — a series of short sounds in a nervous rhythm, ad libitum.',a:0},
+    {pl:'Uderzać instrument — seria krótkich dźwięków w nerwowym rytmie ad libitum.',en:'Strike the instrument — nervous rhythm, ad libitum.',a:0},
     {pl:'Głosem: kilka dźwięków długich wymawiając „SZ" i „S".',en:'Voice: a few long sounds pronouncing "SH" and "S".',a:1},
     {pl:'Zrobić cały obrót siedząc na krześle, robiąc jak najwięcej hałasu.',en:'Make a full rotation sitting on a chair, making as much noise as possible.',a:0},
-    {pl:'Obchodzić się z instrumentem w sposób niekonwencjonalny — dźwięki powinny być dziwne.',en:'Handle the instrument unconventionally — the resulting sounds should be strange.',a:0},
+    {pl:'Obchodzić się z instrumentem w sposób niekonwencjonalny — dźwięki powinny być dziwne.',en:'Handle the instrument unconventionally — the sounds should be strange.',a:0},
   ]}
 };
 
-// ══════════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════════
-let db = null, sRef = null;
-let lang = (navigator.language||'pl').startsWith('pl') ? 'pl' : 'en';
-let myRole = null, myNum = null, sessCode = null;
-let selDie = null, silInt = null, silRem = 0;
-let wasPerforming = false;
-let audioCtx = null;
+// ══════════════════════════════════════
+// TRANSLATIONS
+// ══════════════════════════════════════
+const T={
+  silLabel:   {pl:'Cisza',          en:'Silence'},
+  tagQueue:   {pl:'Kolejka',        en:'Queue'},
+  nextBtn:    {pl:'NASTĘPNY ›',     en:'NEXT ›'},
+  tagLegend:  {pl:'Legenda',        en:'Legend'},
+  legW:       {pl:'Oczekuje',       en:'Waiting'},
+  legR:       {pl:'Kość wybrana',   en:'Die selected'},
+  legP:       {pl:'Wykonuje',       en:'Performing'},
+  legD:       {pl:'Zakończył',      en:'Done'},
+  tagActions: {pl:'Akcje',          en:'Actions'},
+  resetBtn:   {pl:'↺ Zacznij od nowa', en:'↺ Restart session'},
+  endBtn:     {pl:'✕ Zakończ sesję', en:'✕ End session'},
+  pauseBtn:   {pl:'⏸ Pauza',        en:'⏸ Pause'},
+  resumeBtn:  {pl:'▶ Wznów',        en:'▶ Resume'},
+  selectDie:  {pl:'Wybierz wynik rzutu', en:'Select die result'},
+  confirmDie: {pl:'Potwierdź',      en:'Confirm'},
+  faceAud:    {pl:'▶ Twarzą do publiczności', en:'▶ Face the audience'},
+  rerollBtn:  {pl:'⟳ Nowa struktura', en:'⟳ New structure'},
+  changeDie:  {pl:'← Zmień kość',   en:'← Change die'},
+  statusWait: {pl:'Oczekuje',       en:'Waiting'},
+  statusReady:{pl:'Gotowy',         en:'Ready'},
+  statusPerf: {pl:'▶ Twoja kolej!', en:'▶ Your turn!'},
+  statusDone: {pl:'Zakończono',     en:'Done'},
+  turnFlash:  {pl:'Twoja kolej!',   en:'Your turn!'},
+  resetConfirm:{pl:'Zresetować sesję? Wszyscy wrócą do startu.', en:'Restart session? All players return to start.'},
+  endConfirm: {pl:'Zakończyć sesję?', en:'End session?'},
+  copyBtn:    {pl:'Kopiuj link',    en:'Copy link'},
+  copied:     {pl:'✓ Skopiowano',   en:'✓ Copied'},
+  pauseOverlay:{pl:'Sesja wstrzymana', en:'Session paused'},
+  joinNumLabel:{pl:'Wybierz swój numer:', en:'Choose your number:'},
+  joinBtn:    {pl:'Dołącz →',       en:'Join →'},
+  notFound:   {pl:'Nie znaleziono sesji', en:'Session not found'},
+};
+function t(k){ return T[k]?.[lang]||k; }
 
-// ══════════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', () => {
-  hideLoader();
-  showScr('s-cfg');
-  applyLang(lang);
+// ══════════════════════════════════════
+// STATE
+// ══════════════════════════════════════
+let db=null, sRef=null;
+let lang=(navigator.language||'pl').startsWith('pl')?'pl':'en';
+let myRole=null, myNum=null, sessCode=null;
+let selDie=null, silInt=null, silRem=0;
+let wasPerforming=false, audioCtx=null;
+
+// ══════════════════════════════════════
+// BOOT
+// ══════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
   updateLangBtns();
 
-  // Build participant count buttons
-  const cr = document.getElementById('cntRow');
+  // Build count buttons
+  const cr=document.getElementById('cntRow');
   for(let n=2;n<=12;n++){
     const b=document.createElement('button');
     b.className='cnt'+(n===4?' on':''); b.textContent=n; b.dataset.n=n;
@@ -524,199 +473,210 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   // Build die grid
-  const dg = document.getElementById('dieGrid');
+  const dg=document.getElementById('dieGrid');
   for(let v=1;v<=6;v++){
     const d=document.createElement('div');
     d.className='do'; d.dataset.v=v;
     d.innerHTML=`${S[v].face}<span class="do-n">${v}</span>`;
-    d.onclick=()=>selectDie(v);
-    dg.appendChild(d);
+    d.onclick=()=>selectDie(v); dg.appendChild(d);
   }
 
-  // Restore config
-  const saved = localStorage.getItem('fb_cfg');
-  if(saved){ document.getElementById('fbCfg').value=saved; tryInitFB(saved); }
+  // Build num row for join screen (will be sized by session)
+  for(let n=1;n<=12;n++){
+    const b=document.createElement('button');
+    b.className='cnt'; b.textContent=n; b.dataset.n=n; b.style.display='none';
+    b.onclick=()=>{document.querySelectorAll('#numRow .cnt').forEach(x=>x.classList.remove('on'));b.classList.add('on')};
+    document.getElementById('numRow').appendChild(b);
+  }
 
-  // URL params
-  const p = new URLSearchParams(location.search);
-  const c = p.get('s'), n = parseInt(p.get('n'));
-  if(c) document.getElementById('codeIn').value = c.toUpperCase();
-  if(c && n && db) joinWithParams(c, n);
+  // Determine which screen to show
+  const params=new URLSearchParams(location.search);
+  const sCode=params.get('s');
+
+  if(sCode){
+    // Participant path — need Firebase but NOT config screen
+    const cfg=getConfig();
+    if(cfg){ initFB(cfg); showJoinScreen(sCode); }
+    else {
+      // No config anywhere — show minimal message
+      document.getElementById('loader').classList.add('gone');
+      document.getElementById('s-join').classList.add('on');
+      document.getElementById('joinSessCode').textContent=sCode;
+      document.getElementById('joinErr').textContent='Plik nie zawiera konfiguracji Firebase. Skontaktuj się z prowadzącym.';
+      document.getElementById('joinErr').style.display='block';
+      document.getElementById('joinBtn').disabled=true;
+    }
+  } else {
+    // Facilitator path
+    const cfg=getConfig();
+    const saved=localStorage.getItem('fb_cfg_raw');
+    if(saved) document.getElementById('fbCfg').value=saved;
+    if(cfg){
+      initFB(cfg);
+      unlockStep2();
+    }
+    document.getElementById('loader').classList.add('gone');
+    document.getElementById('s-cfg').classList.add('on');
+  }
 });
 
-function hideLoader(){ document.getElementById('loader').classList.add('gone'); }
-function showLoader(key){ 
-  document.getElementById('loader').classList.remove('gone');
-  document.getElementById('loaderTxt').textContent = T[key]?.[lang] || key;
+function getConfig(){
+  if(EMBEDDED_CONFIG) return EMBEDDED_CONFIG;
+  const raw=localStorage.getItem('fb_cfg');
+  if(raw) try{ return JSON.parse(raw); }catch(e){}
+  return null;
 }
 
-// ══════════════════════════════════════════════════════════
-//  LANGUAGE
-// ══════════════════════════════════════════════════════════
-function setLang(l){
-  lang=l; applyLang(l); updateLangBtns();
-  if(myRole==='player') renderPlayerLang();
-}
-
-function applyLang(l){
-  document.querySelectorAll('[data-t]').forEach(el=>{
-    const k=el.getAttribute('data-t');
-    if(T[k]) el.textContent=T[k][l];
-  });
-}
-
-function updateLangBtns(){
-  ['PL','EN'].forEach(x=>{
-    document.querySelectorAll(`[id$="lb${x}"]`).forEach(b=>{
-      b.classList.toggle('active', (x==='PL'&&lang==='pl')||(x==='EN'&&lang==='en'));
-    });
-  });
-}
-
-function t(key){ return T[key]?.[lang] || key; }
-
-// ══════════════════════════════════════════════════════════
-//  FIREBASE
-// ══════════════════════════════════════════════════════════
-function tryInitFB(raw){
+function initFB(cfg){
   try{
-    const cfg=JSON.parse(raw);
-    if(!cfg.apiKey||!cfg.databaseURL) return;
     if(!firebase.apps.length) firebase.initializeApp(cfg);
     db=firebase.database();
-    document.getElementById('step2').style.opacity='1';
-    document.getElementById('step2').style.pointerEvents='auto';
-    // try join from URL now
-    const p=new URLSearchParams(location.search);
-    const c=p.get('s'), n=parseInt(p.get('n'));
-    if(c&&n) joinWithParams(c,n);
-  }catch(e){}
+  }catch(e){ console.error(e); }
 }
 
-function saveConfig(){
+async function showJoinScreen(code){
+  sessCode=code;
+  document.getElementById('joinSessCode').textContent=code;
+  document.getElementById('joinNumLabel').textContent=t('joinNumLabel');
+  document.getElementById('joinBtn').textContent=t('joinBtn');
+  document.getElementById('loader').classList.add('gone');
+
+  if(!db){ showScr('s-join'); return; }
+
+  // fetch participant count
+  try{
+    const snap=await db.ref('sessions/'+code+'/participants').once('value');
+    if(!snap.exists()){
+      document.getElementById('joinErr').style.display='block';
+      showScr('s-join'); return;
+    }
+    const n=snap.val();
+    document.querySelectorAll('#numRow .cnt').forEach((b,i)=>{
+      b.style.display=i<n?'inline-block':'none';
+    });
+  }catch(e){}
+  showScr('s-join');
+}
+
+// ══════════════════════════════════════
+// CONFIG / DOWNLOAD
+// ══════════════════════════════════════
+function saveAndDownload(){
   const raw=document.getElementById('fbCfg').value.trim();
   const err=document.getElementById('cfgErr');
+  let cfg;
   try{
-    const cfg=JSON.parse(raw);
+    cfg=JSON.parse(raw);
     if(!cfg.apiKey||!cfg.databaseURL) throw new Error('missing');
     err.style.display='none';
-    localStorage.setItem('fb_cfg',raw);
-    tryInitFB(raw);
   }catch(e){
-    err.style.display='block';
+    err.style.display='block'; return;
   }
+
+  // Save locally too
+  localStorage.setItem('fb_cfg',raw);
+  localStorage.setItem('fb_cfg_raw',raw);
+  initFB(cfg); unlockStep2();
+
+  // Generate pre-configured HTML
+  fetch(location.href)
+    .then(r=>r.text())
+    .then(html=>{
+      const configured=html.replace(
+        'const EMBEDDED_CONFIG = null; /* DO_NOT_EDIT_THIS_LINE */',
+        'const EMBEDDED_CONFIG = '+raw+'; /* DO_NOT_EDIT_THIS_LINE */'
+      );
+      const blob=new Blob([configured],{type:'text/html'});
+      const url=URL.createObjectURL(blob);
+      document.getElementById('dlLink').href=url;
+      document.getElementById('dlBox').style.display='block';
+    })
+    .catch(()=>{
+      // file:// fallback — just show success
+      document.getElementById('dlBox').style.display='block';
+      document.getElementById('dlLink').style.display='none';
+      document.querySelector('.dl-box-desc').textContent='Konfiguracja zapisana. Plik musi być hostowany online (GitHub Pages / Netlify) żeby generowanie działało — wtedy pobieranie da plik z wbudowaną konfiguracją.';
+    });
 }
 
-// ══════════════════════════════════════════════════════════
-//  SESSION MANAGEMENT
-// ══════════════════════════════════════════════════════════
-function genCode(){
-  return Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');
+function unlockStep2(){
+  const s2=document.getElementById('step2cfg');
+  s2.style.opacity='1';
+  document.getElementById('newSessBtn').disabled=false;
 }
-function getCount(){ return parseInt(document.querySelector('.cnt.on')?.dataset.n||4); }
+
+// ══════════════════════════════════════
+// SESSION
+// ══════════════════════════════════════
+function genCode(){return Array.from({length:5},()=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random()*32)]).join('');}
+function getCount(){return parseInt(document.querySelector('.cnt.on')?.dataset.n||4);}
 
 async function createSession(){
-  if(!db){alert('Configure Firebase first');return;}
-  showLoader('loaderCreate');
+  if(!db){alert('Firebase not initialized');return;}
+  document.getElementById('loader').classList.remove('gone');
   const code=genCode(), n=getCount();
   const players={};
   for(let i=1;i<=n;i++) players[i]={die:null,sIdx:null,status:'waiting'};
-  await db.ref('sessions/'+code).set({
-    participants:n,
-    queueIndex:0,
-    paused:false,
-    players
-  });
-  hideLoader();
+  await db.ref('sessions/'+code).set({participants:n,queueIndex:0,paused:false,players});
   sessCode=code; myRole='fac'; sRef=db.ref('sessions/'+code);
+  document.getElementById('loader').classList.add('gone');
   showScr('s-fac');
   document.getElementById('fcodeDisp').textContent=code;
-  document.getElementById('fcodeDisp2').textContent=code;
   const url=location.origin+location.pathname+'?s='+code;
-  document.getElementById('shareUrl').textContent=url;
-  sRef.on('value', snap=>{ if(snap.exists()) renderFac(snap.val()); });
+  document.getElementById('qrUrl').textContent=url;
+  drawQR(url);
+  sRef.on('value',snap=>{ if(snap.exists()) renderFac(snap.val()); });
 }
 
-async function joinSession(){
-  const code=document.getElementById('codeIn').value.trim().toUpperCase();
-  if(!code) return;
+async function doJoin(){
   const numBtn=document.querySelector('#numRow .cnt.on');
-  if(!numBtn){ await loadNumButtons(code); return; }
-  await joinWithParams(code, parseInt(numBtn.dataset.n));
-}
-
-async function loadNumButtons(code){
-  if(!db){alert('Configure Firebase first');return;}
-  showLoader('loaderCheck');
-  const snap=await db.ref('sessions/'+code).once('value');
-  hideLoader();
+  if(!numBtn){showFlash(t('joinNumLabel'));return;}
+  const num=parseInt(numBtn.dataset.n);
+  if(!db||!sessCode){document.getElementById('joinErr').style.display='block';return;}
+  document.getElementById('loader').classList.remove('gone');
+  const snap=await db.ref('sessions/'+sessCode).once('value');
+  document.getElementById('loader').classList.add('gone');
   if(!snap.exists()){document.getElementById('joinErr').style.display='block';return;}
-  document.getElementById('joinErr').style.display='none';
-  const n=snap.val().participants;
-  const nr=document.getElementById('numRow');
-  nr.innerHTML='';
-  document.getElementById('joinArea').style.display='block';
-  for(let i=1;i<=n;i++){
-    const b=document.createElement('button');
-    b.className='cnt'; b.textContent=i; b.dataset.n=i;
-    b.onclick=()=>{document.querySelectorAll('#numRow .cnt').forEach(x=>x.classList.remove('on'));b.classList.add('on')};
-    nr.appendChild(b);
-  }
-}
-
-async function joinWithParams(code, num){
-  if(!db) return;
-  showLoader('loaderJoin');
-  const snap=await db.ref('sessions/'+code).once('value');
-  hideLoader();
-  if(!snap.exists()) return;
-  sessCode=code; myNum=num; myRole='player'; sRef=db.ref('sessions/'+code);
+  myNum=num; myRole='player'; sRef=db.ref('sessions/'+sessCode);
   document.getElementById('pnum').textContent=num;
-  document.getElementById('pFooter').textContent=`Player ${num} · ${code}`;
+  document.getElementById('pFooter').textContent='Player '+num+' · '+sessCode;
   showScr('s-player');
-  sRef.on('value', snap=>{ if(snap.exists()) renderPlayer(snap.val()); });
+  sRef.on('value',snap=>{ if(snap.exists()) renderPlayer(snap.val()); });
 }
 
-// ══════════════════════════════════════════════════════════
-//  FACILITATOR RENDER
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════
+// FACILITATOR RENDER
+// ══════════════════════════════════════
 function renderFac(data){
   const {participants,queueIndex,players,paused}=data;
-  const qArr=buildQueue(participants); // simple 1..n
-  const curNum=qArr[queueIndex]||null;
+  const q=buildQ(participants);
+  const curNum=q[queueIndex]||null;
 
   // pause btn
   const pb=document.getElementById('pauseBtn');
-  pb.textContent=paused?t('pauseBtnResume'):t('pauseBtn');
-  pb.classList.toggle('active',!!paused);
+  const pb2=document.getElementById('pauseBtn2');
+  const pt=paused?t('resumeBtn'):t('pauseBtn');
+  pb.textContent=pt; pb2.textContent=paused?'▶ WZNÓW':'⏸ PAUZA';
+  pb.classList.toggle('active',!!paused); pb2.classList.toggle('active',!!paused);
 
-  // player cards
+  // grid
   const grid=document.getElementById('pgrid'); grid.innerHTML='';
   for(let i=1;i<=participants;i++){
     const p=players[i]||{};
-    const qi=qArr.indexOf(i);
-    const isDone=qi<queueIndex;
-    const isPerf=i===curNum;
+    const qi=q.indexOf(i);
+    const isDone=qi<queueIndex, isPerf=i===curNum;
     const st=isDone?'done':isPerf?'performing':p.status==='ready'?'ready':'waiting';
-    const c=document.createElement('div');
-    c.className=`pc ${st}`;
-    const posLabel=isDone?t('legD'):isPerf?'▶':qi>=0?`#${qi+1}`:'';
+    const c=document.createElement('div'); c.className='pc '+st;
+    const posLabel=isDone?t('legD'):isPerf?'▶ now':qi>=0?'#'+(qi+1):'';
     let prev='';
-    if(p.die&&p.sIdx!=null){
-      const txt=S[p.die].items[p.sIdx][lang];
-      prev=txt.length>44?txt.slice(0,44)+'…':txt;
-    }
-    c.innerHTML=`
-      <div class="pc-pos">${posLabel}</div>
-      <div class="pc-n B">${i}</div>
-      <div class="pc-row"><span class="pc-dot"></span><span class="pc-die">${p.die?S[p.die].face:'·'}</span></div>
-      ${prev?`<div class="pc-prev">${prev}</div>`:''}`;
+    if(p.die&&p.sIdx!=null){const tx=S[p.die].items[p.sIdx][lang];prev=tx.length>44?tx.slice(0,44)+'…':tx;}
+    c.innerHTML=`<div class="pc-pos">${posLabel}</div><div class="pc-n B">${i}</div><div class="pc-row"><span class="pc-dot"></span><span class="pc-die">${p.die?S[p.die].face:'·'}</span></div>${prev?`<div class="pc-prev">${prev}</div>`:''}`;
     grid.appendChild(c);
   }
 
   // queue list
   const ql=document.getElementById('qlist'); ql.innerHTML='';
-  qArr.forEach((num,idx)=>{
+  q.forEach((num,idx)=>{
     const p=players[num]||{};
     const li=document.createElement('div');
     li.className='qi'+(idx===queueIndex?' cur':idx<queueIndex?' dq':'');
@@ -725,27 +685,41 @@ function renderFac(data){
   });
 
   document.getElementById('nextBtn').disabled=queueIndex>=participants;
-  if(!silInt&&curNum&&players[curNum]?.die){
-    document.getElementById('silDisp').textContent=(players[curNum].die*2)+'s';
-  }
+  if(!silInt&&curNum&&players[curNum]?.die) document.getElementById('silDisp').textContent=(players[curNum].die*2)+'s';
+
+  // apply lang labels
+  applyFacLang();
 }
 
-// ══════════════════════════════════════════════════════════
-//  FACILITATOR ACTIONS
-// ══════════════════════════════════════════════════════════
+function applyFacLang(){
+  document.getElementById('tagQueue').childNodes[0].textContent=t('tagQueue');
+  document.getElementById('nextBtn').textContent=t('nextBtn');
+  document.getElementById('tagLegend').childNodes[0].textContent=t('tagLegend');
+  document.getElementById('legW').textContent=t('legW');
+  document.getElementById('legR').textContent=t('legR');
+  document.getElementById('legP').textContent=t('legP');
+  document.getElementById('legD').textContent=t('legD');
+  document.getElementById('tagActions').childNodes[0].textContent=t('tagActions');
+  document.getElementById('resetBtn').textContent=t('resetBtn');
+  document.getElementById('endBtn').textContent=t('endBtn');
+  document.getElementById('silLbl').textContent=t('silLabel');
+}
+
+// ══════════════════════════════════════
+// FACILITATOR ACTIONS
+// ══════════════════════════════════════
 async function doNext(){
   if(!sRef) return;
   const snap=await sRef.once('value'); const d=snap.val();
   const {participants,queueIndex,players}=d;
-  const qArr=buildQueue(participants);
-  const cur=qArr[queueIndex];
-  if(cur) await sRef.child(`players/${cur}/status`).set('done');
+  const q=buildQ(participants), cur=q[queueIndex];
+  if(cur) await sRef.child('players/'+cur+'/status').set('done');
   const die=cur&&players[cur]?.die;
-  if(die){ silRem=die*2; document.getElementById('silDisp').textContent=silRem+'s'; startSilTimer(); }
+  if(die){silRem=die*2;document.getElementById('silDisp').textContent=silRem+'s';startSilTimer();}
   const ni=Math.min(queueIndex+1,participants);
   await sRef.child('queueIndex').set(ni);
-  const next=qArr[ni];
-  if(next) await sRef.child(`players/${next}/status`).set('performing');
+  const next=q[ni];
+  if(next) await sRef.child('players/'+next+'/status').set('performing');
 }
 
 async function togglePause(){
@@ -755,15 +729,12 @@ async function togglePause(){
 }
 
 async function resetSession(){
-  if(!sRef) return;
-  if(!confirm(t('resetConfirm'))) return;
+  if(!sRef||!confirm(t('resetConfirm'))) return;
   const snap=await sRef.once('value'); const d=snap.val();
-  const {participants}=d;
   const players={};
-  for(let i=1;i<=participants;i++) players[i]={die:null,sIdx:null,status:'waiting'};
+  for(let i=1;i<=d.participants;i++) players[i]={die:null,sIdx:null,status:'waiting'};
   await sRef.update({queueIndex:0,paused:false,players});
-  clearSilTimer();
-  document.getElementById('silDisp').textContent='—';
+  clearSilTimer(); document.getElementById('silDisp').textContent='—';
   showFlash(t('resetBtn'));
 }
 
@@ -795,24 +766,24 @@ function startSilTimer(){
     if(silRem<=0){clearSilTimer();document.getElementById('silBtn').textContent='▶';}
   },1000);
 }
-function clearSilTimer(){ clearInterval(silInt); silInt=null; }
+function clearSilTimer(){clearInterval(silInt);silInt=null;}
 
-// ══════════════════════════════════════════════════════════
-//  PLAYER RENDER
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════
+// PLAYER RENDER
+// ══════════════════════════════════════
 function renderPlayer(data){
   const {participants,queueIndex,players,paused}=data;
   const p=players[myNum]||{};
-  const qArr=buildQueue(participants);
-  const qi=qArr.indexOf(myNum);
-  const isDone=qi<queueIndex;
-  const isPerf=myNum===qArr[queueIndex];
+  const q=buildQ(participants);
+  const qi=q.indexOf(myNum);
+  const isDone=qi<queueIndex, isPerf=myNum===q[queueIndex];
 
   // pause overlay
-  document.getElementById('pauseOverlay').classList.toggle('on', !!paused && !isDone);
+  document.getElementById('pauseOverlay').classList.toggle('on',!!paused&&!isDone);
+  document.getElementById('pauseTxt').innerHTML=t('pauseOverlay')+'<br>Session paused';
 
-  // sound signal on turn
-  if(isPerf && !wasPerforming) playBeep();
+  // beep on turn
+  if(isPerf&&!wasPerforming) playBeep();
   wasPerforming=isPerf;
 
   // status pill
@@ -822,35 +793,25 @@ function renderPlayer(data){
   if(isDone){pill.classList.add('done');stxt.textContent=t('statusDone');}
   else if(isPerf){pill.classList.add('performing');stxt.textContent=t('statusPerf');}
   else if(p.status==='ready'){pill.classList.add('ready');stxt.textContent=t('statusReady');}
-  else{pill.classList.add('waiting');stxt.textContent=`${t('statusWait')} #${qi+1}`;}
+  else{pill.classList.add('waiting');stxt.textContent=t('statusWait')+' #'+(qi+1);}
 
-  document.getElementById('waitBox').style.display='none';
-
-  // if already has structure
-  if(p.die!=null && p.sIdx!=null){
-    showDieResult(p.die, p.sIdx);
+  if(p.die!=null&&p.sIdx!=null){
+    showDieResult(p.die,p.sIdx);
     document.getElementById('diePanel').style.display='none';
   } else {
     document.getElementById('diePanel').style.display='block';
     document.getElementById('structCard').classList.remove('on');
-    applyLang(lang);
   }
+
+  // apply player lang labels
+  document.getElementById('selectDieTag').childNodes[0].textContent=t('selectDie');
+  document.getElementById('confirmBtn').textContent=t('confirmDie');
+  document.getElementById('rerollBtn').textContent=t('rerollBtn');
+  document.getElementById('changeDieBtn').textContent=t('changeDie');
+  document.getElementById('scAud').textContent=t('faceAud');
 }
 
-function renderPlayerLang(){
-  // re-apply text to struct card if showing
-  const card=document.getElementById('structCard');
-  if(!card.classList.contains('on')) return;
-  // get current die/sIdx from Firebase
-  if(!sRef) return;
-  sRef.once('value').then(snap=>{
-    if(!snap.exists()) return;
-    const p=snap.val().players[myNum]||{};
-    if(p.die&&p.sIdx!=null) showDieResult(p.die,p.sIdx);
-  });
-}
-
-function showDieResult(die, sIdx){
+function showDieResult(die,sIdx){
   const item=S[die].items[sIdx];
   document.getElementById('scFace').textContent=S[die].face;
   document.getElementById('scCat').textContent=S[die].cat[lang];
@@ -861,29 +822,26 @@ function showDieResult(die, sIdx){
   document.getElementById('diePanel').style.display='none';
 }
 
-// ══════════════════════════════════════════════════════════
-//  PLAYER ACTIONS
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════
+// PLAYER ACTIONS
+// ══════════════════════════════════════
 function selectDie(v){
   selDie=v;
   document.querySelectorAll('.do').forEach(d=>d.classList.toggle('sel',parseInt(d.dataset.v)===v));
   document.getElementById('confirmBtn').disabled=false;
 }
-
 async function confirmDie(){
   if(!selDie||!sRef) return;
   const idx=Math.floor(Math.random()*S[selDie].items.length);
-  await sRef.child(`players/${myNum}`).update({die:selDie,sIdx:idx,status:'ready'});
+  await sRef.child('players/'+myNum).update({die:selDie,sIdx:idx,status:'ready'});
 }
-
 async function doReroll(){
   if(!sRef) return;
-  const snap=await sRef.child(`players/${myNum}/die`).once('value');
+  const snap=await sRef.child('players/'+myNum+'/die').once('value');
   const die=snap.val(); if(!die) return;
   const idx=Math.floor(Math.random()*S[die].items.length);
-  await sRef.child(`players/${myNum}/sIdx`).set(idx);
+  await sRef.child('players/'+myNum+'/sIdx').set(idx);
 }
-
 function showDiePanel(){
   document.getElementById('structCard').classList.remove('on');
   document.getElementById('diePanel').style.display='block';
@@ -892,46 +850,63 @@ function showDiePanel(){
   document.getElementById('confirmBtn').disabled=true;
 }
 
-// ══════════════════════════════════════════════════════════
-//  SOUND
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════
+// LANGUAGE
+// ══════════════════════════════════════
+function setLang(l){
+  lang=l; updateLangBtns();
+  if(myRole==='fac') applyFacLang();
+  if(myRole==='player'&&sRef) sRef.once('value').then(s=>{if(s.exists())renderPlayer(s.val());});
+  // join screen
+  document.getElementById('joinNumLabel').textContent=t('joinNumLabel');
+  document.getElementById('joinBtn').textContent=t('joinBtn');
+}
+function updateLangBtns(){
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    const isPL=b.id.endsWith('PL');
+    b.classList.toggle('active',(isPL&&lang==='pl')||(!isPL&&lang==='en'));
+  });
+}
+
+// ══════════════════════════════════════
+// SOUND
+// ══════════════════════════════════════
 function playBeep(){
   try{
     if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.frequency.setValueAtTime(660, audioCtx.currentTime);
-    osc.frequency.setValueAtTime(880, audioCtx.currentTime+0.12);
-    gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+0.5);
-    osc.start(audioCtx.currentTime);
-    osc.stop(audioCtx.currentTime+0.5);
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.frequency.setValueAtTime(660,audioCtx.currentTime);
+    o.frequency.setValueAtTime(880,audioCtx.currentTime+0.12);
+    g.gain.setValueAtTime(0.4,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.5);
+    o.start(audioCtx.currentTime); o.stop(audioCtx.currentTime+0.5);
     showFlash(t('turnFlash'));
   }catch(e){}
 }
 
-// ══════════════════════════════════════════════════════════
-//  UTILS
-// ══════════════════════════════════════════════════════════
-function buildQueue(n){ return Array.from({length:n},(_,i)=>i+1); }
-
-function showScr(id){
-  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
+// ══════════════════════════════════════
+// QR CODE (pure canvas, no library)
+// ══════════════════════════════════════
+function drawQR(url){
+  // Use Google Charts QR API (simple, no library needed)
+  const canvas=document.getElementById('qrCanvas');
+  const ctx=canvas.getContext('2d');
+  const img=new Image();
+  const apiUrl='https://api.qrserver.com/v1/create-qr-code/?size=140x140&color=000000&bgcolor=ffffff&data='+encodeURIComponent(url);
+  img.onload=()=>{ ctx.drawImage(img,0,0,140,140); };
+  img.src=apiUrl;
 }
 
-function onCodeInput(){
-  const v=document.getElementById('codeIn').value.trim().toUpperCase();
-  document.getElementById('codeIn').value=v;
-  document.getElementById('joinArea').style.display='none';
-}
-
+// ══════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════
+function buildQ(n){return Array.from({length:n},(_,i)=>i+1);}
+function showScr(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');}
 function showFlash(msg){
   const f=document.createElement('div');
-  f.className='flash'; f.textContent=msg;
-  document.body.appendChild(f);
-  setTimeout(()=>f.remove(),2000);
+  f.className='flash'; f.textContent=msg; document.body.appendChild(f);
+  setTimeout(()=>f.remove(),2200);
 }
 </script>
 </body>
